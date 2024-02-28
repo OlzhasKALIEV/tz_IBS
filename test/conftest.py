@@ -18,9 +18,9 @@ def user_client(settings):
 
 
 @pytest.fixture()
-def browser(settings):
+def browser():
     driver = webdriver.Chrome()
-    page_ibs = IbsHomePage(driver, settings)
+    page_ibs = IbsHomePage(driver)
     page_ibs.open()
     yield page_ibs
     driver.quit()

@@ -17,8 +17,8 @@ def test_get_single_user(user_client, id_user):
 
 @pytest.mark.parametrize("id_user", ["0", "23"])
 def test_get_single_user_error(user_client, id_user):
-    with pytest.raises(AssertionError, match="404"):
-        user_client.get(APIRoutes.USERS + id_user)
+    response = user_client.get(APIRoutes.USERS + id_user, 404)
+    assert not response, "Expected response to be empty ({}), but received: {}".format({}, response)
 
 
 @pytest.mark.parametrize("page", ["1", "2", "5", "10", "100"])
@@ -35,9 +35,8 @@ def test_get_single_resource(user_client, id_unknown):
 
 @pytest.mark.parametrize("id_unknown", ["0", "23"])
 def test_get_single_resource_error(user_client, id_unknown):
-    with pytest.raises(AssertionError, match="404"):
-        response = user_client.get(APIRoutes.SINGLE_RESOURCE + id_unknown)
-        assert response.status_code == 404
+    response = user_client.get(APIRoutes.SINGLE_RESOURCE + id_unknown, 404)
+    assert not response, "Expected response to be empty ({}), but received: {}".format({}, response)
 
 
 @pytest.mark.parametrize(
