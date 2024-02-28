@@ -1,5 +1,7 @@
 import pytest
+from selenium import webdriver
 
+from pags.ibs_page import IbsHomePage
 from src.api_ibs import ApiIBS
 from src.settings import base_settings
 
@@ -13,3 +15,13 @@ def settings():
 def user_client(settings):
     api_request = ApiIBS(settings)
     return api_request
+
+
+@pytest.fixture()
+def browser(settings):
+    driver = webdriver.Chrome()
+    page_ibs = IbsHomePage(driver, settings)
+    page_ibs.open()
+    yield page_ibs
+    driver.quit()
+

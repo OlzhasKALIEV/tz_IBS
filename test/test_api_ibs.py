@@ -44,8 +44,8 @@ def test_get_single_resource_error(user_client, id_unknown):
     "name, job",
     [
         (
-            "morpheus",
-            "leader",
+                "morpheus",
+                "leader",
         ),
         ("neo", "hacker"),
         ("trinity", "warrior"),
@@ -123,7 +123,7 @@ def test_post_register(user_client, email, password):
     ],
 )
 def test_post_register_error(user_client, email):
-    data = {"email": "george.bluth@reqres.in"}
+    data = {"email": email}
     with pytest.raises(AssertionError, match="400"):
         user_client.post(APIRoutes.REGISTER, data)
 
@@ -141,3 +141,23 @@ def test_post_login(user_client, email, password):
     data = {"email": email, "password": password}
     response = user_client.post(APIRoutes.LOGIN, data, 200)
     assert "token" in response
+
+
+@pytest.mark.parametrize(
+    "email",
+    [
+        "george.bluth@reqres.in",
+        "janet.weaver@reqres.in",
+        "emma.wong@reqres.in",
+        "charles.morris@reqres.in",
+    ],
+)
+def test_post_login_error(user_client, email):
+    data = {"email": email}
+    with pytest.raises(AssertionError, match="400"):
+        user_client.post(APIRoutes.LOGIN, data)
+
+
+def test_get_delay(user_client):
+    response = user_client.get(APIRoutes.DELAYED_RESPONSE)
+    assert response['support']['text'] == 'To keep ReqRes free, contributions towards server costs are appreciated!'

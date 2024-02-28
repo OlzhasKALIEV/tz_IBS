@@ -8,7 +8,7 @@ class APIRoutes(str, Enum):
     SINGLE_RESOURCE = '/api/unknown/'
     REGISTER = '/api/register/'
     LOGIN = '/api/login/'
-    DELAYED_RESPONSE = '/api/users?delay='
+    DELAYED_RESPONSE = '/api/users?delay=3'
 
     def __str__(self) -> str:
         return self.value
