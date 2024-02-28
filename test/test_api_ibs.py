@@ -153,8 +153,8 @@ def test_post_login(user_client, email, password):
 )
 def test_post_login_error(user_client, email):
     data = {"email": email}
-    with pytest.raises(AssertionError, match="400"):
-        user_client.post(APIRoutes.LOGIN, data)
+    response = user_client.post(APIRoutes.LOGIN, data, 400)
+    assert response['error'] == 'Missing password'
 
 
 def test_get_delay(user_client):
